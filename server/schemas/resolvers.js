@@ -10,7 +10,7 @@ const resolvers = {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new Error('You need to be logged in!');
     },
    
   },
@@ -21,7 +21,7 @@ const resolvers = {
       const user = await User.create(args);
 
       if (!user) {
-        throw new AuthenticationError('Not valid info');      }
+        throw new Error('Not valid info');      }
       const token = signToken(user);
       return { user, token };
     },
@@ -29,13 +29,13 @@ const resolvers = {
       const usernameActive = await User.findOne({ username });
 
       if (!usernameActive) {
-        throw new AuthenticationError('No username doesnt exist');
+        throw new Error('No username doesnt exist');
       }
 
       const passActive = await User.isCorrectPassword(password);
 
       if (!passActive) {
-        throw new AuthenticationError('Incorrect password!');
+        throw new Error('Incorrect password!');
       }
 
 
@@ -70,7 +70,7 @@ const resolvers = {
         );
       }
   
-      throw new AuthenticationError('You need to be logged in!');
+      throw new Error('You need to be logged in!');
     },
   },
 };
